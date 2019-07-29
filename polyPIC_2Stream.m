@@ -242,10 +242,17 @@ for it=1:NT
     % Solve the field
     % total charge density
     rho = rhoq0 + rhoq1 + rhoq_back;
+    DRAW_DEBUG_1D_PLOT(rho,'rho',L,it,DT)
+     
+    
+    %dlmwrite(fn, f(:,J), 'delimiter', '\t', 'precision','%25.18e')    
+    
     % calculate the electrostatic potential, 0 on the right boundary
     Phi=Poisson\(-rho(1:NG-1)*dx^2);Phi=[Phi;0];
     % calculate the electric field at center cell
     Eg=([Phi(NG); Phi(1:NG-1)]-[Phi(2:NG);Phi(1)])/(2*dx);
+    DRAW_DEBUG_1D_PLOT(Eg,'E',L,it,DT)
+    
     % calculate the electric field on the node
     E_V = ([Phi(NG); Phi(1:NG)]-[Phi(1:NG);Phi(1)])/dx;
     % Periodic Boundary condition
